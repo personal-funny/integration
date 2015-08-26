@@ -1,2 +1,2 @@
 # integration
-Spring integration + redis simple
+Spring Integration + redis simple

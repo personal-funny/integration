@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @EnableAutoConfiguration(exclude={Configuration.class})
-@ImportResource(value={"classpath:spring/root-context.xml"})
+@ImportResource(value={"classpath:root-context.xml"})
 public class App {
 	static final Logger log = LoggerFactory.getLogger(App.class);
 
