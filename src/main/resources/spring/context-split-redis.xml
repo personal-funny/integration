@@ -30,44 +30,7 @@
     	p:connection-factory-ref="redisConnectionFactory"/>
 
 	<!-- 序列化类型 -->
-<!-- 	<bean id="jdkSerializer" -->
-<!-- 		class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" /> -->
+	<bean id="jdkSerializer"
+		class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
 
-	<!-- 管道配置 -->
-<!-- 	<integration:channel id="jinSendChannel" /> -->
-<!-- 	<integration:channel id="jinReceiveChannel" /> -->
-<!-- 	<integration:channel id="errorChannel" /> -->
-
-	<!-- Redis Queue Inbound Channel Gateway -->
-	<!-- <int-redis:queue-inbound-gateway queue="jin.queue.send" auto-startup="true" 
-		request-channel="jinSendChannel" serializer="jdkSerializer" reply-timeout="1000" 
-		request-timeout="1000" extract-payload="false" connection-factory="redisConnectionFactory"/> -->
-
-<!-- 	<integration:gateway default-request-channel="jinSendChannel" -->
-<!-- 		service-interface="com.jingoal.web.integration.service.IntMessageService" -->
-<!-- 		error-channel="errorChannel" /> -->
-
-	<!-- Redis Queue Outbound Channel Gateway -->
-<!-- 	<int-redis:queue-outbound-gateway -->
-<!-- 		auto-startup="true" extract-payload="false" requires-reply="false" -->
-<!-- 		serializer="jdkSerializer" queue="jin.queue.receive" request-channel="jinReceiveChannel" -->
-<!-- 		reply-timeout="1000" connection-factory="redisConnectionFactory" /> -->
-
-	<!-- 路由器设置 -->
-<!-- 	<integration:router input-channel="jinSendChannel" -->
-<!-- 		default-output-channel="" auto-startup="true" apply-sequence="true" -->
-<!-- 		expression="true"> -->
-<!-- 		<integration:mapping value="true" channel="jinReceiveChannel" /> -->
-<!-- 	</integration:router> -->
-
-<!-- 	<integration:channel id="channelSend" /> -->
-<!-- 	<integration:channel id="channelReceive" /> -->
-<!-- 	<int-redis:queue-inbound-channel-adapter -->
-<!-- 		channel="channelReceive" auto-startup="true" connection-factory="redisConnectionFactory" -->
-<!-- 		queue="queueSend" serializer="jdkSerializer" receive-timeout="1000" -->
-<!-- 		recovery-interval="" expect-message="true" /> -->
-
-<!-- 	<int-redis:queue-outbound-channel-adapter -->
-<!-- 		auto-startup="true" channel="channelSend" connection-factory="redisConnectionFactory" -->
-<!-- 		queue="queueReceive" serializer="jdkSerializer" extract-payload="false" /> -->
 </beans>
