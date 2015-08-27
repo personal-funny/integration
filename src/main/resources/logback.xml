@@ -1,46 +1,93 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<configuration scan="true" scanPeriod="1800 seconds" debug="false">
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" scanPeriod="10 minutes">
 
 	<property name="USER_HOME" value="logs" />
 	<property scope="context" name="FILE_NAME" value="integration" />
 
 	<timestamp key="byDay" datePattern="yyyy-MM-dd" />
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-			</pattern>
-		</encoder>
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{36} -%msg%n</pattern>
+		</layout>
 	</appender>
 
-	<appender name="file"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${USER_HOME}/${FILE_NAME}.log</file>
 
-		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<fileNamePattern>${USER_HOME}/${byDay}/${FILE_NAME}-${byDay}-%i.log.zip
-			</fileNamePattern>
-			<minIndex>1</minIndex>
-			<maxIndex>10</maxIndex>
-		</rollingPolicy>
-
-		<triggeringPolicy
-			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-			<maxFileSize>5MB</maxFileSize>
-		</triggeringPolicy>
-		<encoder>
-			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n
-			</pattern>
-		</encoder>
-
+	<!-- 按照每天生成日志文件 -->  
+	<appender name="debuglog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+        <Encoding>UTF-8</Encoding>  
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
+			<FileNamePattern>${USER_HOME}/${FILE_NAME}/debug.%d{yyyy-MM-dd}.log</FileNamePattern>  
+			<MaxHistory>30</MaxHistory>
+        </rollingPolicy>  
+        <layout class="ch.qos.logback.classic.PatternLayout">  
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - %msg%n</pattern>  
+        </layout>  
 	</appender>
-
-	<logger name="com.lee.integration" level="debug" additivity="true">
-		<appender-ref ref="file" />
-		<!-- <appender-ref ref="STDOUT" /> -->
-	</logger>
-
-	<root level="ERROR">
-		<appender-ref ref="STDOUT" />
+	<appender name="infolog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+	    </filter>          
+        <Encoding>UTF-8</Encoding>  
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
+			<FileNamePattern>${USER_HOME}/${FILE_NAME}/info.%d{yyyy-MM-dd}.log</FileNamePattern>  
+			<MaxHistory>30</MaxHistory>
+        </rollingPolicy>  
+        <layout class="ch.qos.logback.classic.PatternLayout">  
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - %msg%n</pattern>  
+        </layout>  
+	</appender>
+	<appender name="warnlog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+ 		</filter>          
+		<Encoding>UTF-8</Encoding>  
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
+			<FileNamePattern>${USER_HOME}/${FILE_NAME}/warn.%d{yyyy-MM-dd}.log</FileNamePattern>  
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>  
+		<layout class="ch.qos.logback.classic.PatternLayout">  
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - %msg%n</pattern>  
+		</layout>  
+	</appender>
+	<appender name="errorlog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>          
+        <Encoding>UTF-8</Encoding>  
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
+			<FileNamePattern>${USER_HOME}/${FILE_NAME}/error.%d{yyyy-MM-dd}.log</FileNamePattern>  
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>  
+		<layout class="ch.qos.logback.classic.PatternLayout">  
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - %msg%n</pattern>  
+		</layout>  
+	</appender>
+        
+	
+	<root level="WARN">
+		<appender-ref ref="stdout" />
+		<appender-ref ref="debuglog" />		
+		<appender-ref ref="infolog" />		
+		<appender-ref ref="warnlog" />
+		<appender-ref ref="errorlog" />		
 	</root>
+	
+	<logger name="com.lee.integration" level="DEBUG" />
+	<logger name="org.springframework" level="ERROR" />
+	<logger name="com.ibatis" level="WARN" />
+	<logger name="java.sql" level="WARN" />	
+	<logger name="org.apache.zookeeper" level="ERROR" />
+    <logger name="n.spy.memcached.MemcachedConnection" level="ERROR"/>
 </configuration>
