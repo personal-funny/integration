@@ -8,6 +8,10 @@
 	<name>integration Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<start-class>com.lee.integration.app.App</start-class>
+
 		<spring.boot.version>1.2.1.RELEASE</spring.boot.version>
 	</properties>
 	<dependencies>
@@ -47,14 +51,15 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>integration</finalName>
+		<outputDirectory>target/test-classes</outputDirectory>
+<!-- 		<finalName>integration</finalName> -->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<target>${java.version}</target>
+					<source>${java.version}</source>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -65,6 +70,21 @@
 					<execution>
 						<goals>
 							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptor>src/main/assembly/assembly.xml</descriptor>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
 						</goals>
 					</execution>
 				</executions>
