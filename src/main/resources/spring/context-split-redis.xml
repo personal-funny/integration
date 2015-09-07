@@ -48,7 +48,7 @@
 	<integration:gateway 
 	    default-request-channel="sendChannel"
 	    service-interface="com.lee.integration.service.IntMsgService"
-	    error-channel="errorChannel" />	
+	    error-channel="" />	
 
 	<!-- Redis Queue Outbound Channel Gateway -->
 	<int-redis:queue-outbound-gateway 
